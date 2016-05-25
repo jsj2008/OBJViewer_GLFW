@@ -1,0 +1,246 @@
+/*
+ * ObjectData.hpp
+ *
+ *  Created on: 13/2/2015
+ *      Author: JAVIER
+ *
+ */
+
+#pragma once
+
+#include "glm/glm/vec2.hpp"
+#include "glm/glm/vec3.hpp"
+//#include <vector>
+#include <string>
+#include <vector>
+
+struct ObjectData {
+    struct dataBuffer{
+        unsigned int nElem;
+        size_t sizeTipo;
+        int groupTipo;
+        void *buffer;
+    };
+	std::vector<dataBuffer> buffers;
+	std::string fileDir;
+//	unsigned int numV, numT, numN;
+//	glm::vec3 *vertices;
+//	glm::vec2 *textureCoord;
+//	glm::vec3 *normales;
+
+	ObjectData();
+	ObjectData(int numBuffers);
+    ObjectData(std::string fileDir);
+    ObjectData(const ObjectData &obj);
+	virtual ~ObjectData();
+	unsigned int getNumV();
+	unsigned int getNumT();
+	unsigned int getNumN();
+	glm::vec3* getVertices();
+	glm::vec2* getTextureCoords();
+	glm::vec3* getNormales();
+	void annadirArrayVertices(unsigned int numV,unsigned int numT,unsigned int numN, glm::vec3 *v, glm::vec2 *t, glm::vec3 *n);
+
+    void calcNormals();
+	void calcTexCoord();
+	void invertNormals();
+
+	ObjectData operator=(const ObjectData &o);
+
+	std::string toString(int tabLevel);
+/*
+    void annadirBuffer(unsigned int nElem, size_t tElem, int groupSize, void *buffer);
+
+    void annadirBuffer(unsigned int nElem, type tipo, void *buffer);*/
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+ * Object3D.cpp
+ *
+ *  Created on: 13/2/2015
+ *      Author: JAVIER
+ */
+
+#include "ObjectData.hpp"
+#include "glm/glm/gtx/perpendicular.hpp"
+#include <stdlib.h>
+#include <string.h>
+#include <sstream>
+#include <include/utils/stringHelper.hpp>
+#include <iostream>
+#include <include/loaders/ObjectDataloader.hpp>
+
+ObjectData::ObjectData() :
+        fileDir(""),
+        numV(0), numT(0), numN(0),
+        vertices(NULL), textureCoord(NULL), normales(NULL) {
+}
+
+ObjectData::ObjectData(int numBuffers) :
+        fileDir("") {
+}
+
+ObjectData::ObjectData(std::string fileDir) :
+        fileDir(fileDir),
+        numV(0), numT(0), numN(0),
+        vertices(NULL), textureCoord(NULL), normales(NULL) {
+    ///TODO???
+}
+
+ObjectData::ObjectData(const ObjectData &obj) :
+        fileDir(),
+        numV(obj.numV), numT(obj.numT), numN(obj.numN),
+        vertices(NULL), textureCoord(NULL), normales(NULL) {
+    this->annadirArrayVertices(numV, numT, numN,
+                               obj.vertices, obj.textureCoord, obj.normales);
+}
+
+ObjectData::~ObjectData() {
+    free(vertices);
+    free(textureCoord);
+    free(normales);
+}
+
+unsigned int ObjectData::getNumV() {
+    return numV;
+}
+
+unsigned int ObjectData::getNumT() {
+    return numT;
+}
+
+unsigned int ObjectData::getNumN() {
+    return numN;
+}
+
+glm::vec3 *ObjectData::getVertices() {
+    return &vertices[0];
+}
+
+glm::vec2 *ObjectData::getTextureCoords() {
+    return &textureCoord[0];
+}
+
+glm::vec3 *ObjectData::getNormales() {
+    return &normales[0];
+}
+
+void ObjectData::annadirArrayVertices(unsigned int numV, unsigned int numT, unsigned int numN,
+                                      glm::vec3 *v, glm::vec2 *t, glm::vec3 *n) {
+    if (numV > 0) {
+        vertices = (glm::vec3 *) malloc(sizeof(glm::vec3) * numV);
+        memcpy(vertices, v, numV * (sizeof(glm::vec3)));
+    }
+    if (numT > 0) {
+        textureCoord = (glm::vec2 *) malloc(sizeof(glm::vec2) * numT);
+        memcpy(textureCoord, t, numT * (sizeof(glm::vec2)));
+    }
+    if (numN > 0) {
+        normales = (glm::vec3 *) malloc(sizeof(glm::vec3) * numN);
+        memcpy(normales, n, numN * (sizeof(glm::vec3)));
+    }
+    this->numV = numV;
+    this->numT = numT;
+    this->numN = numN;
+}
+
+/*template <class type> void ObjectData::annadirBuffer(unsigned int nElem, type tipo, void *buffer)
+{
+    dataBuffer aux;
+    if (nElem > 0) {
+        aux.buffer = (class tipo *) malloc(sizeof(tipo) * nElem);
+        memcpy(aux.buffer, buffer, nElem * sizeof(tipo));
+    }
+    aux.nElem = nElem;
+
+    buffers.push_back(aux);
+}
+
+void ObjectData::annadirBuffer(unsigned int nElem, size_t size, void *buffer) {
+        if (nElem > 0) {
+            buffer = (glm::vec3 *) malloc(size * nElem);
+            memcpy(this->buffers[i].buffer, buffer, nElem * size);
+        }
+        this->buffers[i].nElem = nElem;
+        this->buffers[i].size = size;
+
+}*/
+
+ObjectData ObjectData::operator=(const ObjectData &o) {
+    this->annadirArrayVertices(o.numV, o.numT, o.numN, o.vertices, o.textureCoord, o.normales);
+    numV = o.numV;
+    numT = o.numT;
+    numN = o.numN;
+    return *this;
+}
+
+std::string ObjectData::toString(int tabLevel) {
+    std::stringstream tab;
+    std::stringstream ss;
+    for (int i = 0; i < tabLevel; ++i) {
+        tab << "\t";
+    }
+    ss << tab.str() << "Vertex Array Info" << "\n";
+    ss << tab.str() << "\tNumVertices = " << numV << "\n";
+    ss << tab.str() << "\tNumTextureCoord = " << numT << "\n";
+    ss << tab.str() << "\tNumNormales = " << numN << "\n";
+    ss << tab.str() << "\tVerticesP = " << vertices << "\n";
+    for (int i = 0; i < 3; i++) {
+        ss << tab.str() << "\tV = " << vec3ToString(vertices[i]) << "\n";
+    }
+    ss << tab.str() << "\tTextureCoordP = " << textureCoord << "\n";
+    for (int i = 0; i < 3; i++) {
+        ss << tab.str() << "\tT = " << vec2ToString(textureCoord[i]) << "\n";
+    }
+    ss << tab.str() << "\tNormalesP = " << normales << "\n";
+    for (int i = 0; i < 3; i++) {
+        ss << tab.str() << "\tN = " << vec3ToString(normales[i]) << "\n";
+    }
+    return ss.str();
+}
+
+glm::vec3 normal(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3) {
+    return glm::normalize(glm::cross(v3 - v1, v2 - v1));
+}
+
+void ObjectData::calcNormals() {
+    if((numV%3)==0) {
+        std::cout << "Calculando normales" << std::endl;
+        normales = (glm::vec3 *) malloc(numV * sizeof(glm::vec3));
+        for (unsigned int i = 0; i < numV; i += 3) {
+            glm::vec3 normalVector(normal(vertices[i], vertices[i + 1], vertices[i + 2]));
+            normales[i] = -normalVector;
+            normales[i + 1] = -normalVector;
+            normales[i + 2] = -normalVector;
+        }
+        numN = numV;
+    }
+}
+
+void ObjectData::calcTexCoord() {
+    if((numV%3)==0) {
+        std::cout << "Calculando Texturas" << std::endl;
+        textureCoord = (glm::vec2 *) malloc(numV * sizeof(glm::vec2));
+        for (unsigned int i = 0; i < numV; i += 3) {
+            textureCoord[i] = glm::vec2(0.0f,0.0f);
+            textureCoord[i + 1] = glm::vec2(0.0f,1.0f);
+            textureCoord[i + 2] = glm::vec2(1.0f,1.0f);
+        }
+        numT = numV;
+    }
+}
+
+void ObjectData::invertNormals() {
+    for (unsigned int i = 0; i < numN; i++) {
+        normales[i] = glm::normalize(glm::vec3(-normales[i]));
+    }
+}
+
+
+
+

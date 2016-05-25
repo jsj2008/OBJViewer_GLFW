@@ -1,0 +1,29 @@
+
+v0.5
+-Comprobar solidez y estructura del motor
+-Carga de buffers dinamica
+-Implementar instanciacion (diferentes matrizes de modelo para un mismo objeto)
+-Implementar texto como Objeto 3D y 2D
+-Implementar dibujado de texto en pantalla a escala constante
+
+v0.6
+-Consola (create cube cubo1 / cubo1 pos 0 1 0 / cubo1 loadTex diffuse 123.bmp / ...)
+-Crear estructura "world" para guardar objetos (objetos3D, camaras, luces, textos, shaders?, texturas?)
+-Convertir Gestores en Singleton (o con la clase world basta??)
+-Asignar teclas mediante punteros a funciones
+
+v0.7
+-Crear estructura para el dibujado optimo de objetos, texturas y shaders(world?)
+-Limpiar y reorganizar los shaders
+-Particulas!!
+
+v0.8
+-Fisica(quad/octotree,fuerzas,colisiones,etc)
+
+v0.9
+-Animaciones
+
+v1.0
+-Renderizado a framebuffer
+-Efectos de imagen
+
