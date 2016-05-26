@@ -6,7 +6,7 @@
 #include "Material.hpp"
 #include "renderObject.hpp"
 #include "glm/glm/mat4x4.hpp"
-#include "glew.h"
+//#include "glew.h"
 #include <string>
 
 struct Object3D {

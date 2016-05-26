@@ -163,16 +163,17 @@ void Camera::rotateCenter(float ang_xy, float ang_z, float length) {
     //	view = lookAt(vec3(cam.getPos()), vec3(cam.getPosFocus()), vec3(0.0, 0.0, 1.0));
 }
 
-void Camera::rotateFoco(float ang_xy, float ang_z, float timeDif) {
+void Camera::rotateFoco(double ang_xy, double ang_z, float timeDif) {
     eye = glm::vec3(
-            glm::vec4(eye, 1.0f) * rotate(glm::mat4(1.0f), ang_xy * camSensibility * timeDif, glm::vec3(0, 0, 1)));
+            glm::vec4(eye, 1.0f) *
+            rotate(glm::mat4(1.0f), (float) ang_xy * camSensibility * timeDif, glm::vec3(0, 0, 1)));
     eye = glm::vec3(
             glm::vec4(eye, 1.0f)
-            * rotate(glm::mat4(1.0f), ang_z * camSensibility * timeDif, glm::vec3(eye.y, -eye.x, 0)));
+            * rotate(glm::mat4(1.0f), (float) ang_z * camSensibility * timeDif, glm::vec3(eye.y, -eye.x, 0)));
     if ((eye.z > 0.99f) || (eye.z < -0.99f))
         eye = glm::vec3(
                 glm::vec4(eye, 1.0f)
-                * rotate(glm::mat4(1.0f), ang_z * camSensibility * timeDif * (-1),
+                * rotate(glm::mat4(1.0f), (float) ang_z * camSensibility * timeDif * (-1),
                          glm::vec3(eye.y, -eye.x, 0)));
     eye = normalize(eye);
 }

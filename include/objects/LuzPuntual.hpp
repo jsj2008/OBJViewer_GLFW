@@ -8,7 +8,8 @@
 #pragma once
 
 #include <glm/glm/vec3.hpp>
-#include "glew.h"
+#include <libs/lib/glew.h>
+//#include "glew.h"
 
 struct LuzPuntual {
 	glm::vec3 position;

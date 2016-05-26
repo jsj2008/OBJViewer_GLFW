@@ -1,6 +1,6 @@
-#version 440
+#version 400
 
-#define numTextures 8
+#define numTextures 9
 
 #define AMBIENT 8
 #define DIFFUSE 0

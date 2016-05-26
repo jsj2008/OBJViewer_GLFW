@@ -1,33 +1,26 @@
 cmake_minimum_required(VERSION 3.4)
-set(APP_NAME MotorGrafico_0_5)
+set(APP_NAME MotorGrafico_0_6)
 project(${APP_NAME})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include\"windows.h\"")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include\"GL/glew.h\"")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include\"GL/freeglut.h\"")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include\"glm.hpp\"")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include\"gtc/matrix_transform.hpp\"")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include\"gtc/type_ptr.hpp\"")
-
+#add_definitions(-GLFW_STATIC)
 add_definitions(-DGLEW_STATIC)
 
 include_directories(.)
 include_directories(./include)
-include_directories(./include/utils)
 include_directories(./include/inputs)
 include_directories(./include/loaders)
 include_directories(./include/objects)
 include_directories(./include/objects/Material)
 include_directories(./include/objects/Material/Textures)
+include_directories(./include/utils)
 include_directories(./libs/include)
 
 link_directories(./libs/lib)
 
 set(SOURCE_FILES
-
         include/loaders/BMPloader.cpp
         include/loaders/BMPloader.hpp
         include/loaders/ObjectDataloader.cpp
@@ -68,15 +61,8 @@ set(SOURCE_FILES
         include/utils/InitHelper.hpp
 
         main.cpp
-        include/loaders/Consola.cpp include/loaders/Consola.hpp)
+        )
 
 add_executable(${APP_NAME} ${SOURCE_FILES})
 
-target_link_libraries(${APP_NAME} glew32s opengl32 freeglut)
-
-add_custom_command(
-        TARGET ${APP_NAME}
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_SOURCE_DIR}/build/Debug/data/
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data/ ${CMAKE_SOURCE_DIR}/build/Debug/data/
-)
+target_link_libraries(${APP_NAME} glew32s opengl32 glfw3)

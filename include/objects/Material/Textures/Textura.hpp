@@ -1,8 +1,9 @@
 
 #pragma once
 
-#include <glew.h>
+//#include <glew.h>
 #include <string>
+#include <libs/lib/glew.h>
 
 //#define DiffuseIndex 0
 //#define NormalIndex 1

@@ -1,9 +1,10 @@
 
 #pragma once
 
+#include <libs/lib/glew.h>
 #include "ObjectData.hpp"
 #include "glm/glm/mat4x4.hpp"
-#include "glew.h"
+//#include "glew.h"
 #include "Object.hpp"
 
 struct renderObject{

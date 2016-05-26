@@ -9,8 +9,9 @@
 
 #include "glm/glm/vec3.hpp"
 #include "glm/glm/mat4x4.hpp"
-#include <glew.h>
+//#include <glew.h>
 #include <string>
+#include <libs/lib/glew.h>
 
 struct Camera {
 
@@ -57,7 +58,7 @@ struct Camera {
     void move(glm::vec3 v);
     void moveFPS(float f_b, float r_l, float u_d, float timeDif);
     void rotateCenter(float ang_xy, float ang_z, float length);
-    void rotateFoco(float ang_xy, float ang_z, float timeDif);
+    void rotateFoco(double ang_xy, double ang_z, float timeDif);
     void pan(float x, float y);
 
     void linkCamAttrib(GLuint shader);
