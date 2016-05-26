@@ -7,31 +7,31 @@ Raton::Raton() :
         capturePointer(true) {
 }
 
-Raton::Raton(double valX, double valY) :
+Raton::Raton(int valX, int valY) :
         x(valX), y(valY),
         leftButton(false), rightButton(false), middleButton(false),
         capturePointer(true) {
 }
 
-void Raton::getPointer(double &valX, double &valY) {
+void Raton::getPointer(int &valX, int &valY) {
     valX = x;
     valY = y;
 }
 
-double Raton::getPointerX() {
+int Raton::getPointerX() {
     return x;
 }
 
-double Raton::getPointerY() {
+int Raton::getPointerY() {
     return y;
 }
 
-double Raton::getCenterPointerX(int w) {
-    return x - w / 2.0f;
+int Raton::getCenterPointerX(int w) {
+    return x - w / 2;
 }
 
-double Raton::getCenterPointerY(int h) {
-    return y - h / 2.0f;
+int Raton::getCenterPointerY(int h) {
+    return y - h / 2;
 }
 
 bool Raton::getCapturePointer() {
@@ -42,7 +42,7 @@ void Raton::toggleCapturePointer() {
     capturePointer = !capturePointer;
 }
 
-void Raton::setPointer(double valX, double valY) {
+void Raton::setPointer(int valX, int valY) {
     x = valX;
     y = valY;
 }

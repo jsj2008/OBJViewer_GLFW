@@ -45,8 +45,8 @@ set(SOURCE_FILES
         include/objects/Camera.hpp
         include/objects/LuzPuntual.cpp
         include/objects/LuzPuntual.hpp
-        include/objects/renderObject.cpp
-        include/objects/renderObject.hpp
+        include/objects/RenderObject.cpp
+        include/objects/RenderObject.hpp
 
         include/objects/Material/Material.cpp
         include/objects/Material/Material.hpp

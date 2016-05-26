@@ -7,15 +7,15 @@
 //#include "glew.h"
 #include "Object.hpp"
 
-struct renderObject{
+struct RenderObject{
     GLuint vao;
     int numV;
     GLenum mode;
     glm::mat4 modelMatrix;
     GLuint modelMatrixAttrib;
 
-    renderObject();
-    ~renderObject();
+    RenderObject();
+    ~RenderObject();
 
     void createBindBuffer(GLuint idShader, const GLchar *name, GLenum tipo, int elemTipo, int numTotalElem,
                           const void *vector);

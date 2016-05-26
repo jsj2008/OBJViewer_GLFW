@@ -56,9 +56,9 @@ struct Camera {
     void reset();
 
     void move(glm::vec3 v);
-    void moveFPS(float f_b, float r_l, float u_d, float timeDif);
+    void moveFPS(float f_b, float r_l, float u_d, double timeDif);
     void rotateCenter(float ang_xy, float ang_z, float length);
-    void rotateFoco(double ang_xy, double ang_z, float timeDif);
+    void rotateFoco(float ang_xy, float ang_z, double timeDif);
     void pan(float x, float y);
 
     void linkCamAttrib(GLuint shader);

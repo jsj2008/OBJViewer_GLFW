@@ -23,32 +23,46 @@ Teclado teclado;
 
 Camera *cam;
 LuzPuntual *luz;
-Object3D *obj;
+//Object3D *obj;
+Object3D *obj[5] = {NULL,NULL,NULL,NULL,NULL};
 Shader *shader;
 
-double oldTime;
+double oldTime, lastFrameTime;
 int nFrame = 0;
 
-void entradas(float timeDif) {
+void entradas(double timeDif) {
+    float a, b, c, CAM_VEL;
+    CAM_VEL = 0.1f;
+    a = b = c = 0;
 
-    if (teclado.getKey('f')) {
-//        glutFullScreenToggle();
-        teclado.setKey('f', false);
+    if (glfwGetKey(window, GLFW_KEY_W)) {
+        a = CAM_VEL;
     }
-
-    if (teclado.getKey('m')) {
-        if (obj->renderObj->mode == GL_TRIANGLES) {
-            obj->renderObj->mode = GL_LINE_STRIP;
-        } else {
-            obj->renderObj->mode = GL_TRIANGLES;
-        }
-        teclado.setKey('m', false);
+    if (glfwGetKey(window, GLFW_KEY_S)) {
+        a = -CAM_VEL;
     }
-
-
-    if (teclado.getKey('1')) {
-        luz->position = cam->pos;
+    if (glfwGetKey(window, GLFW_KEY_A)) {
+        b = CAM_VEL;
     }
+    if (glfwGetKey(window, GLFW_KEY_D)) {
+        b = -CAM_VEL;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Z)) {
+        c = CAM_VEL;
+    }
+    if (glfwGetKey(window, GLFW_KEY_X)) {
+        c = -CAM_VEL;
+    }
+    cam->moveFPS(a + raton.wheel * 5, b, c, timeDif);
+    if (raton.getCapturePointer()) {
+        cam->rotateFoco(raton.getCenterPointerX(cam->width),
+                        raton.getCenterPointerY(cam->height),
+                        timeDif);
+    }
+//
+//    if (teclado.getKey('1')) {
+//        luz->position = cam->pos;
+//    }
 //    if (teclado.getKey('2')) {
 //        obj->data = plane();
 //        obj->inicializarObjeto(shader->id);
@@ -70,7 +84,6 @@ void entradas(float timeDif) {
 //        obj->data = pyramid();
 //        obj->inicializarObjeto(shader->id);
 //    }
-
 }
 
 //
@@ -151,25 +164,25 @@ void initObjects() {
     luz->linkLuzAttrib(shader->id);
     std::cout << "Cam & Light atributes cargados" << std::endl;
 
-    obj = new Object3D(1);
-    obj->basicData.pos = glm::vec3(0, 5, 0);
-    obj->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
-//    obj->data = loadObjectData("C:\\Users\\Javier\\ClionProjects\\MotorGrafico_0_5\\data\\troll\\troll_raw.obj");
-    obj->data = loadObjectData2("prueba1.raw");
-//    obj->data = new ObjectData;
-//    cube(obj->data);
-    obj->inicializarObjeto(shader->id);
-    obj->material->ambientColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-    obj->material->diffuseColor = glm::vec4(0.6f, 0.0f, 0.0f, 0.0f);
-    obj->material->specularColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
-    obj->material->glossinessColor = glm::vec4(100.0f, 0.0f, 0.0f, 0.0f);
-    obj->material->selfIluminatedColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-    obj->material->alphaColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    obj->material->bumpColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
-    obj->material->reflectionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    obj->material->refractionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    obj->material->loadUnifMaterial();
-    std::cout << obj->toString(0);
+    obj[0] = new Object3D(1);
+    obj[0]->basicData.pos = glm::vec3(0, 5, 0);
+    obj[0]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
+//    obj[0]->data = loadObjectData("C:\\Users\\Javier\\ClionProjects\\MotorGrafico_0_5\\data\\troll\\troll_raw.obj");
+    obj[0]->data = loadObjectData2("prueba1.raw");
+//    obj[0]->data = new ObjectData;
+//    cube(obj[0]->data);
+    obj[0]->inicializarObjeto(shader->id);
+    obj[0]->material->ambientColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+    obj[0]->material->diffuseColor = glm::vec4(0.6f, 0.0f, 0.0f, 0.0f);
+    obj[0]->material->specularColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+    obj[0]->material->glossinessColor = glm::vec4(100.0f, 0.0f, 0.0f, 0.0f);
+    obj[0]->material->selfIluminatedColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+    obj[0]->material->alphaColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    obj[0]->material->bumpColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+    obj[0]->material->reflectionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    obj[0]->material->refractionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    obj[0]->material->loadUnifMaterial();
+    std::cout << obj[0]->toString(0);
     std::cout << "Objetos inicializados" << std::endl;
 }
 
@@ -186,44 +199,47 @@ void keyRecorder(GLFWwindow *window, int key, int scancode, int action, int mods
     if (key == GLFW_KEY_R && action == GLFW_PRESS) {
         cam->reset();
     }
+    if (key == GLFW_KEY_F && action == GLFW_PRESS) {
+//        glfwDestroyWindow(window);
+//        // Renew calls to glfwOpenWindowHint
+//        // Hints get reset after the call to glfwOpenWindow
+//        myGLFWOpenWindowHints();
+//
+//        window = glfwCreateWindow(1366, 768, "My Title", glfwGetPrimaryMonitor(), NULL);
+//        if (!window) {
+//            glfwTerminate();
+//        }
+    }
     if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
         luz->position = cam->pos;
     }
     if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-
-        obj->data = new ObjectData;
-        cube(obj->data);
+        obj[0]->data = new ObjectData;
+        cube(obj[0]->data);
+        obj[0]->renderObj->loadDataBuffers(shader->id, obj[0]->data);
     }
-
-
-
-    float a = 0, b = 0, c = 0;
-    if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-        a = 1;
-    }
-    if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-        a = -1;
-    }
-    if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-        b = 1;
-    }
-    if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-        b = -1;
-    }
-    if (key == GLFW_KEY_Z && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-        c = 1;
-    }
-    if (key == GLFW_KEY_X && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-        c = -1;
-    }
-    cam->moveFPS(a + raton.wheel * 5, b, c, 0.0005f);
-//    raton.resetWheel();
 }
 
 void dropFile(GLFWwindow *window, int n, const char **ss) {
     for (int i = 0; i < n; i++) {
         const char *s = ss[i];
         std::cout << s << std::endl;
+        obj[1] = new Object3D(2);
+        obj[1]->basicData.pos = glm::vec3(5, 0, 0);
+        obj[1]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
+        obj[1]->data = loadObjectData2(s);
+        obj[1]->inicializarObjeto(shader->id);
+        obj[1]->material->ambientColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+        obj[1]->material->diffuseColor = glm::vec4(0.6f, 0.0f, 0.0f, 0.0f);
+        obj[1]->material->specularColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+        obj[1]->material->glossinessColor = glm::vec4(100.0f, 0.0f, 0.0f, 0.0f);
+        obj[1]->material->selfIluminatedColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+        obj[1]->material->alphaColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+        obj[1]->material->bumpColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+        obj[1]->material->reflectionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+        obj[1]->material->refractionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+        obj[1]->material->loadUnifMaterial();
+        std::cout << obj[1]->toString(0);
     }
 }
 
@@ -234,15 +250,13 @@ void reshape(GLFWwindow *window, int sx, int sy) {
 }
 
 void cursorPos(GLFWwindow *window, double x, double y) {
-    raton.setPointer(x, y);
-//    std::cout << raton.getCenterPointerX(cam->width) << " " <<
-//    raton.getCenterPointerY(cam->height) << std::endl;
+    raton.setPointer((int) x, (int) y);
 }
 
 void fpsCounter() {
     double actualTime = glfwGetTime();
-    if (actualTime - oldTime > 1.0f) {
-        oldTime = actualTime;
+    if (actualTime - lastFrameTime > 1.0f) {
+        lastFrameTime = actualTime;
         std::cout << nFrame << " FPS" << std::endl;
         nFrame = 0;
     } else {
@@ -268,7 +282,6 @@ int main(int argc, char *argv[]) {
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
 
-
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
     if (err != GLEW_OK) {
@@ -289,30 +302,32 @@ int main(int argc, char *argv[]) {
     //glEnable(GL_CULL_FACE);
     glClearColor(0.25f, 0.25f, 0.35f, 0.0f);
 
-
     initObjects();
 
-    oldTime = glfwGetTime();
+    lastFrameTime = oldTime = glfwGetTime();
     while (!glfwWindowShouldClose(window)) {
+        double actualTime = glfwGetTime();
+        double difTime = actualTime - oldTime;
+        oldTime = actualTime;
+        entradas(difTime);
         fpsCounter();
-        if (raton.getCapturePointer()) {
-            glfwSetCursorPos(window, cam->width / 2, cam->height / 2);
-        }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shader->id);
         cam->loadCamAttrib();
         luz->loadLuzAttrib();
-        obj->material->activateTextures();
-        obj->renderObj->actualizarModelMatrix(&obj->basicData);
-        obj->renderObj->loadModelUniform();
-        glBindVertexArray(obj->renderObj->vao);
-        glDrawArrays(obj->renderObj->mode, 0, obj->renderObj->numV);
+        for (int i = 0; i < 5; i++) {
+            if(obj[i] != NULL) {
+                obj[i]->material->activateTextures();
+                obj[i]->renderObj->actualizarModelMatrix(&obj[i]->basicData);
+                obj[i]->renderObj->loadModelUniform();
+                glBindVertexArray(obj[i]->renderObj->vao);
+                glDrawArrays(obj[i]->renderObj->mode, 0, obj[i]->renderObj->numV);
+            }
+        }
         glfwSwapBuffers(window);
         glfwPollEvents();
         if (raton.getCapturePointer()) {
-            cam->rotateFoco(raton.getCenterPointerX(cam->width),
-                            raton.getCenterPointerY(cam->height),
-                            0.00005f * 10);
+            glfwSetCursorPos(window, cam->width / 2, cam->height / 2);
         }
     }
     glfwDestroyWindow(window);

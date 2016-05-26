@@ -49,7 +49,7 @@ void Object3D::inicializarObjeto(unsigned int shaderId) {
     material->loadUnifMaterial();
     material->loadTexFile("data\\troll\\troll_raw.tex");
     material->loadTextures();
-    renderObj = new renderObject();
+    renderObj = new RenderObject();
     renderObj->createVao();
     renderObj->getUnifLocModelMatrix(shaderId);
     renderObj->actualizarModelMatrix(&basicData);

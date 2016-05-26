@@ -16,10 +16,10 @@
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Material.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Shader.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/LuzPuntual.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/objects/renderObject.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/objects/RenderObject.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/ObjectData.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Object.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/objects/renderObject.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/objects/RenderObject.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/ObjectData.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Object.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/LuzPuntual.cpp" isTestSource="false" />

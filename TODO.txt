@@ -1,7 +1,7 @@
 
 v0.5
--Comprobar solidez y estructura del motor
--Carga de buffers dinamica
+-Comprobar solidez y estructura del motor DONE
+-Carga de buffers dinamica SEMIDONE
 -Implementar instanciacion (diferentes matrizes de modelo para un mismo objeto)
 -Implementar texto como Objeto 3D y 2D
 -Implementar dibujado de texto en pantalla a escala constante
