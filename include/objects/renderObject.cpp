@@ -36,7 +36,6 @@ void RenderObject::createBindBuffer(GLuint idShader, const GLchar *name, GLenum 
         glGenBuffers(1, &auxBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, auxBuffer);
         {
-            //TODO: Cambiar por glNamedBufferData?? O eliminar glBindBuffer???
             glBufferData(GL_ARRAY_BUFFER, sizeof(tipo) * elemTipo * numTotalElem,
                          vector, GL_STATIC_DRAW);
             glEnableVertexAttribArray((GLuint) auxAttrib);

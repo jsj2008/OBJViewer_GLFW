@@ -1,6 +1,7 @@
 #include "libs/lib/glew.h"
 #include "libs/lib/glfw3.h"
 #include <iostream>
+#include <cstdio>
 #include "InitHelper.hpp"
 #include "Raton.hpp"
 #include "Teclado.hpp"
@@ -13,18 +14,20 @@
 #include "ObjectDataloader.hpp"
 #include "LuzPuntual.hpp"
 
-const int WINDOW_WIDTH = 400;
-const int WINDOW_HEIGHT = 300;
+int WINDOW_WIDTH = 600;
+int WINDOW_HEIGHT = 600;
+bool fullscreen = false;
+
+const int N_OBJ = 2;
 
 GLFWwindow *window;
 
-Raton raton(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+Raton raton;
 Teclado teclado;
 
 Camera *cam;
 LuzPuntual *luz;
-//Object3D *obj;
-Object3D *obj[5] = {NULL,NULL,NULL,NULL,NULL};
+Object3D *obj[N_OBJ];
 Shader *shader;
 
 double oldTime, lastFrameTime;
@@ -55,11 +58,11 @@ void entradas(double timeDif) {
     }
     cam->moveFPS(a + raton.wheel * 5, b, c, timeDif);
     if (raton.getCapturePointer()) {
-        cam->rotateFoco(raton.getCenterPointerX(cam->width),
-                        raton.getCenterPointerY(cam->height),
+        cam->rotateFoco(raton.getVelPointerX(),
+                        raton.getVelPointerY(),
                         timeDif);
     }
-//
+
 //    if (teclado.getKey('1')) {
 //        luz->position = cam->pos;
 //    }
@@ -86,70 +89,6 @@ void entradas(double timeDif) {
 //    }
 }
 
-//
-//void onMouse(int x, int y) {
-//    raton.setPointer(x, y);
-//}
-//
-//void onWheel(int wheel, int dir, int x, int y) {
-//    raton.setWheel(wheel, dir, x, y);
-//}
-//
-//void onButtons(int button, int state, int x, int y) {
-////    switch (button) {
-////        case GLUT_LEFT_BUTTON:
-////            if (state == GLUT_DOWN)
-////                raton.setButtons(true, false, false);
-////            else
-////                raton.setButtons(false, false, false);
-////            break;
-////        case GLUT_RIGHT_BUTTON:
-////            if (state == GLUT_DOWN)
-////                raton.setButtons(false, true, false);
-////            else
-////                raton.setButtons(false, false, false);
-////            break;
-////        case GLUT_MIDDLE_BUTTON:
-////            if (state == GLUT_DOWN)
-////                raton.setButtons(false, false, true);
-////            else
-////                raton.setButtons(false, false, false);
-////            break;
-////    }
-//}
-//void reshape(int w, int h) {
-//    cam->setWidth(w);
-//    cam->setHeight(h);
-//    raton.setPointer(w / 2, h / 2);
-//    glViewport(0, 0, w, h);
-//}
-//
-//void animate() {
-//    glutPostRedisplay();
-//}
-//
-//void visible(int vis) {
-//    if (vis == GLUT_VISIBLE)
-//        glutIdleFunc(animate);
-//    else
-//        glutIdleFunc(0);
-//}
-//
-//void display() {
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    entradas(0.0005f);
-//    glUseProgram(shader->id);
-//    cam->loadCamAttrib();
-//    luz->loadLuzAttrib();
-//    obj->material->activateTextures();
-//    obj->renderObj->actualizarModelMatrix(&obj->basicData);
-//    obj->renderObj->loadModelUniform();
-//    glBindVertexArray(obj->renderObj->vao);
-//    glDrawArrays(obj->renderObj->mode, 0, obj->renderObj->numV);
-//    glBindVertexArray(0);
-//    glutSwapBuffers();
-//}
-//
 
 void initObjects() {
     shader = new Shader("basic");
@@ -163,61 +102,16 @@ void initObjects() {
     luz = new LuzPuntual;
     luz->linkLuzAttrib(shader->id);
     std::cout << "Cam & Light atributes cargados" << std::endl;
+    for (int i = 0; i < N_OBJ; i++) {
+        obj[i] = new Object3D(1, "prueba1.raw", "data\\troll\\troll_raw.tex");
+        obj[i]->basicData.pos = glm::vec3(i*100, 0, 0);
+        obj[i]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
+        obj[i]->material->diffuseColor.a = 0.0f;
+        obj[i]->setShader(shader->id);
+    }
 
-    obj[0] = new Object3D(1);
-    obj[0]->basicData.pos = glm::vec3(0, 5, 0);
-    obj[0]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
-//    obj[0]->data = loadObjectData("C:\\Users\\Javier\\ClionProjects\\MotorGrafico_0_5\\data\\troll\\troll_raw.obj");
-    obj[0]->data = loadObjectData2("prueba1.raw");
-//    obj[0]->data = new ObjectData;
-//    cube(obj[0]->data);
-    obj[0]->inicializarObjeto(shader->id);
-    obj[0]->material->ambientColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-    obj[0]->material->diffuseColor = glm::vec4(0.6f, 0.0f, 0.0f, 0.0f);
-    obj[0]->material->specularColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
-    obj[0]->material->glossinessColor = glm::vec4(100.0f, 0.0f, 0.0f, 0.0f);
-    obj[0]->material->selfIluminatedColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-    obj[0]->material->alphaColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    obj[0]->material->bumpColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
-    obj[0]->material->reflectionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    obj[0]->material->refractionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    obj[0]->material->loadUnifMaterial();
-    std::cout << obj[0]->toString(0);
+//    std::cout << obj[0]->toString(0);
     std::cout << "Objetos inicializados" << std::endl;
-}
-
-void keyRecorder(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_E && action == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, GL_TRUE);
-    }
-    if (key == GLFW_KEY_T && action == GLFW_PRESS) {
-        raton.toggleCapturePointer();
-    }
-    if (key == GLFW_KEY_C && action == GLFW_PRESS) {
-        std::cout << cam->toString(0);
-    }
-    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
-        cam->reset();
-    }
-    if (key == GLFW_KEY_F && action == GLFW_PRESS) {
-//        glfwDestroyWindow(window);
-//        // Renew calls to glfwOpenWindowHint
-//        // Hints get reset after the call to glfwOpenWindow
-//        myGLFWOpenWindowHints();
-//
-//        window = glfwCreateWindow(1366, 768, "My Title", glfwGetPrimaryMonitor(), NULL);
-//        if (!window) {
-//            glfwTerminate();
-//        }
-    }
-    if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
-        luz->position = cam->pos;
-    }
-    if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-        obj[0]->data = new ObjectData;
-        cube(obj[0]->data);
-        obj[0]->renderObj->loadDataBuffers(shader->id, obj[0]->data);
-    }
 }
 
 void dropFile(GLFWwindow *window, int n, const char **ss) {
@@ -250,17 +144,90 @@ void reshape(GLFWwindow *window, int sx, int sy) {
 }
 
 void cursorPos(GLFWwindow *window, double x, double y) {
-    raton.setPointer((int) x, (int) y);
+    raton.setPointer(x,y);
 }
 
 void fpsCounter() {
     double actualTime = glfwGetTime();
     if (actualTime - lastFrameTime > 1.0f) {
         lastFrameTime = actualTime;
-        std::cout << nFrame << " FPS" << std::endl;
+        char fps[5];
+        snprintf(fps, 5, "%d", nFrame);
+        std::string ss = "Sivax Extreme Engine";
+        ss.append(" | FPS: ");
+        ss.append(fps);
+//        std::cout << nFrame << " FPS" << std::endl;
+        glfwSetWindowTitle(window,ss.c_str());
         nFrame = 0;
     } else {
         nFrame++;
+    }
+}
+
+void keyRecorder(GLFWwindow *window, int key, int scancode, int action, int mods) {
+    if (key == GLFW_KEY_E && action == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    if (key == GLFW_KEY_T && action == GLFW_PRESS) {
+        raton.toggleCapturePointer();
+    }
+    if (key == GLFW_KEY_C && action == GLFW_PRESS) {
+        std::cout << cam->toString(0);
+    }
+    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+        cam->reset();
+    }
+    if (key == GLFW_KEY_F && action == GLFW_PRESS) {
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        GLFWmonitor *monitor = NULL;
+        if(!fullscreen) {
+            monitor = glfwGetPrimaryMonitor();
+            WINDOW_WIDTH = glfwGetVideoMode(monitor)->width;
+            WINDOW_HEIGHT = glfwGetVideoMode(monitor)->height;
+            fullscreen = true;
+        } else {
+            WINDOW_WIDTH = 500;
+            WINDOW_HEIGHT = 500;
+            fullscreen = false;
+        }
+        glfwDestroyWindow(window);
+        window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Sivax Extreme Engine", monitor, NULL);
+        if (!window) {
+            glfwTerminate();
+        }
+        glfwMakeContextCurrent(window);
+        int width, height;
+        glfwGetFramebufferSize(window, &width, &height);
+        glViewport(0, 0, width, height);
+
+        glewExperimental = GL_TRUE;
+        GLenum err = glewInit();
+        if (err != GLEW_OK) {
+            std::cout << "glewInit failed, aborting." << std::endl;
+        }
+
+        glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+        glfwSetKeyCallback(window, keyRecorder);
+        glfwSetDropCallback(window, dropFile);
+        glfwSetWindowSizeCallback(window, reshape);
+        glEnable(GL_DEPTH_TEST);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
+        glPointSize(50.0f);
+        glEnable(GL_CULL_FACE);
+        glClearColor(0.25f, 0.25f, 0.35f, 0.0f);
+        initObjects();
+    }
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+        luz->position = cam->pos;
+    }
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
+        obj[0]->data = new ObjectData;
+        cube(obj[0]->data);
+        obj[0]->renderObj->loadDataBuffers(shader->id, obj[0]->data);
     }
 }
 
@@ -272,12 +239,20 @@ int main(int argc, char *argv[]) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "My Title", NULL, NULL);
+
+    GLFWmonitor *monitor = NULL;
+    if(fullscreen) {
+        monitor = glfwGetPrimaryMonitor();
+        WINDOW_WIDTH = glfwGetVideoMode(monitor)->width;
+        WINDOW_HEIGHT = glfwGetVideoMode(monitor)->height;
+    }
+    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Sivax Extreme Engine", monitor, NULL);
     if (!window) {
         glfwTerminate();
         return 2;
     }
     glfwMakeContextCurrent(window);
+
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
@@ -287,19 +262,16 @@ int main(int argc, char *argv[]) {
     if (err != GLEW_OK) {
         std::cout << "glewInit failed, aborting." << std::endl;
     }
-
+    glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
     glfwSetKeyCallback(window, keyRecorder);
     glfwSetDropCallback(window, dropFile);
     glfwSetWindowSizeCallback(window, reshape);
-    glfwSetCursorPosCallback(window, cursorPos);
-
 
     glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     glPointSize(50.0f);
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glClearColor(0.25f, 0.25f, 0.35f, 0.0f);
 
     initObjects();
@@ -309,26 +281,24 @@ int main(int argc, char *argv[]) {
         double actualTime = glfwGetTime();
         double difTime = actualTime - oldTime;
         oldTime = actualTime;
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+        raton.setPointer(xpos,ypos);
         entradas(difTime);
         fpsCounter();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shader->id);
         cam->loadCamAttrib();
         luz->loadLuzAttrib();
-        for (int i = 0; i < 5; i++) {
-            if(obj[i] != NULL) {
-                obj[i]->material->activateTextures();
-                obj[i]->renderObj->actualizarModelMatrix(&obj[i]->basicData);
-                obj[i]->renderObj->loadModelUniform();
+        for (int i = 0; i < N_OBJ; i++) {
+            if (obj[i] != NULL) {
+                obj[i]->refreshData();
                 glBindVertexArray(obj[i]->renderObj->vao);
                 glDrawArrays(obj[i]->renderObj->mode, 0, obj[i]->renderObj->numV);
             }
         }
         glfwSwapBuffers(window);
         glfwPollEvents();
-        if (raton.getCapturePointer()) {
-            glfwSetCursorPos(window, cam->width / 2, cam->height / 2);
-        }
     }
     glfwDestroyWindow(window);
     glfwTerminate();

@@ -12,8 +12,8 @@ Material::Material() :
         id(0),
         name("Material"),
         shaderId(0),
-        ambientColor(0.0f, 0.0f, 0.0f, 1.0f),
-        diffuseColor(0.6f, 0.0f, 0.0f, 1.0f),
+        ambientColor(0.1f, 0.1f, 0.15f, 1.0f),
+        diffuseColor(0.6f, 0.6f, 0.6f, 1.0f),
         specularColor(0.0f, 0.0f, 0.0f, 1.0f),
         glossinessColor(30.0f, 0.0f, 0.0f, 1.0f),
         selfIluminatedColor(0.0f, 0.0f, 0.0f, 1.0f),
@@ -36,7 +36,7 @@ Material::Material(unsigned int id) :
         name("Material"),
         shaderId(0),
         ambientColor(0.0f, 0.0f, 0.0f, 1.0f),
-        diffuseColor(0.6f, 0.0f, 0.0f, 1.0f),
+        diffuseColor(0.6f, 0.6f, 0.6f, 1.0f),
         specularColor(0.0f, 0.0f, 0.0f, 1.0f),
         glossinessColor(30.0f, 0.0f, 0.0f, 1.0f),
         selfIluminatedColor(0.0f, 0.0f, 0.0f, 1.0f),
@@ -222,12 +222,12 @@ void Material::loadTexFile(std::string ruta) {
     file.close();
 }
 
-void  Material::getUnifLocMaterial(GLuint idShader) {
-    attribLocationMat = (GLuint) glGetUniformLocation(idShader, "material[0]");
+void  Material::getUnifLocMaterial() {
+    attribLocationMat = (GLuint) glGetUniformLocation(shaderId, "material[0]");
     if (attribLocationMat < 0) {
         std::cout << "Shader did not contain the 'material[0]' uniform." << std::endl;
     }
-    attribLocationTex = (GLuint) glGetUniformLocation(idShader, "myTextures[0]");
+    attribLocationTex = (GLuint) glGetUniformLocation(shaderId, "myTextures[0]");
     if (attribLocationTex < 0) {
         std::cout << "Shader did not contain the 'myTextures[0]' uniform." << std::endl;
     }

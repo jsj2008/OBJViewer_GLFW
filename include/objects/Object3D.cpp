@@ -5,37 +5,41 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <include/loaders/ObjectDataloader.hpp>
 
 
 Object3D::Object3D(unsigned int id) :
         basicData(id),
         data(NULL),
         material(NULL),
-        renderObj(NULL){
+        renderObj(NULL) {
+}
+
+Object3D::Object3D(unsigned int id, std::string rutaModel) :
+        basicData(id),
+        material(NULL) {
+    data = loadObjectData2(rutaModel);
+    renderObj = new RenderObject();
+    renderObj->createVao();
+    renderObj->actualizarModelMatrix(&basicData);
+}
+
+Object3D::Object3D(unsigned int id, std::string rutaModel, std::string rutaTex) :
+        basicData(id) {
+    data = loadObjectData2(rutaModel);
+    material = new Material();
+    material->loadTexFile(rutaTex);
+    renderObj = new RenderObject();
+    renderObj->createVao();
+    renderObj->actualizarModelMatrix(&basicData);
 }
 
 
-Object3D::Object3D(const Object3D &obj):
+Object3D::Object3D(const Object3D &obj) :
         basicData(obj.basicData),
         data(NULL),
         material(obj.material),
-        renderObj(obj.renderObj)
-{
-}
-
-
-std::string Object3D::toString(int tabLevel) {
-    std::stringstream tab;
-    std::stringstream ss;
-    for (int i = 0; i < tabLevel; ++i) {
-        tab << "\t";
-    }
-    ss << tab.str() << "Object3D Data" << "\n";
-    ss << tab.str() << basicData.toString(1) << "\n";
-    ss << tab.str() << ((data == NULL) ? "\tObjectData = NULL" : data->toString(1)) << "\n";
-    ss << tab.str() << ((material == NULL) ? "\tMaterial = NULL" : material->toString(1)) << "\n";
-    ss << tab.str() << ((renderObj == NULL) ? "\tRender = NULL" : renderObj->toString(1)) << "\n";
-    return ss.str();
+        renderObj(obj.renderObj) {
 }
 
 void Object3D::inicializarObjeto(unsigned int shaderId) {
@@ -45,7 +49,7 @@ void Object3D::inicializarObjeto(unsigned int shaderId) {
 //        data->calcTexCoord();
     material = new Material(0);
     material->setShaderId(shaderId);
-    material->getUnifLocMaterial(shaderId);
+    material->getUnifLocMaterial();
     material->loadUnifMaterial();
     material->loadTexFile("data\\troll\\troll_raw.tex");
     material->loadTextures();
@@ -56,6 +60,23 @@ void Object3D::inicializarObjeto(unsigned int shaderId) {
     renderObj->loadModelUniform();
     renderObj->loadDataBuffers(shaderId, data);
 }
+
+void Object3D::setShader(unsigned int shaderId) {
+    material->setShaderId(shaderId);
+    material->getUnifLocMaterial();
+    material->loadTextures();
+    renderObj->getUnifLocModelMatrix(shaderId);
+    renderObj->loadDataBuffers(shaderId, data);
+    refreshData();
+}
+
+void Object3D::refreshData() {
+    material->loadUnifMaterial();
+    material->activateTextures();
+    renderObj->actualizarModelMatrix(&basicData);
+    renderObj->loadModelUniform();
+}
+
 
 bool Object3D::loadOnFile() {
     FILE *archivo;
@@ -89,6 +110,19 @@ bool Object3D::saveOnFile() {
     return true;
 }
 
+std::string Object3D::toString(int tabLevel) {
+    std::stringstream tab;
+    std::stringstream ss;
+    for (int i = 0; i < tabLevel; ++i) {
+        tab << "\t";
+    }
+    ss << tab.str() << "Object3D Data" << "\n";
+    ss << tab.str() << basicData.toString(1) << "\n";
+    ss << tab.str() << ((data == NULL) ? "\tObjectData = NULL" : data->toString(1)) << "\n";
+    ss << tab.str() << ((material == NULL) ? "\tMaterial = NULL" : material->toString(1)) << "\n";
+    ss << tab.str() << ((renderObj == NULL) ? "\tRender = NULL" : renderObj->toString(1)) << "\n";
+    return ss.str();
+}
 
 
 

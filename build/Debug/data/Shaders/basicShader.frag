@@ -2,7 +2,6 @@
 
 #define numTextures 9
 
-#define AMBIENT 8
 #define DIFFUSE 0
 #define SPECULAR 1
 #define GLOSSINESS 2
@@ -11,6 +10,7 @@
 #define BUMP 5
 #define REFLECTION 6
 #define REFRACTION 7
+#define AMBIENT 8
 
 in vec4 fragPosition;
 in vec3 fragNormal;
@@ -35,15 +35,15 @@ struct tPointLight{
 
 uniform tPointLight pointLight;
 
-uniform vec4 material[numTextures];
-uniform sampler2D myTextures[numTextures];
+uniform vec4 material[9];
+uniform sampler2D myTextures[8];
 
 out vec4 fragColor;
 
 void main(void){
-	vec3 textura[numTextures];
-    for(int i = 0; i < numTextures; i++){
-        textura[i] = texture(myTextures[i],fragTexCoord).rgb * (1.0f - material[i].w) + material[i].rgb * material[i+1].w;
+	vec3 textura[9];
+    for(int i = 0; i < 8; i++){
+        textura[i] = texture(myTextures[i],fragTexCoord).rgb * (1.0f - material[i+1].w) + material[i+1].rgb * material[i+1].w;
     }
 //    if(material[BUMP].w < 1.0f){
 //        textura[BUMP] = fragNormal * textura[BUMP];
@@ -51,6 +51,7 @@ void main(void){
 //        textura[BUMP] = normalize(fragNormal);
 //    }
     textura[BUMP] = normalize(fragNormal);
+    textura[AMBIENT] = material[0].rgb;
 
     float lightDistance = distance(pointLight.position,fragPosition.xyz);
 
@@ -69,8 +70,8 @@ void main(void){
 
     float atte = (1.0 / (1.0 + pointLight.attenuation.linear * lightDistance * lightDistance));
 
-    //vec3 color = amb + atte*(dif + spe) + self;
-    vec3 color = atte*(dif + spe) + self;
+    vec3 color = amb + atte*(dif + spe) + self;
+//    vec3 color = atte*(dif + spe) + self;
 
     fragColor = vec4(color,textura[ALPHA]);
 //    fragColor = vec4(1.0f,1.0f,1.0f,1.0f);

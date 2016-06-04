@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 
 #add_definitions(-GLFW_STATIC)
+add_definitions(-D__NO_INLINE__)
 add_definitions(-DGLEW_STATIC)
 
 include_directories(.)

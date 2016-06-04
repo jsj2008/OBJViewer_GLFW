@@ -18,8 +18,13 @@ struct Object3D {
 
     Object3D(unsigned int id);
     Object3D(const Object3D &obj);
+    Object3D(unsigned int id,std::string rutaModel);
+    Object3D(unsigned int id,std::string rutaModel, std::string rutaTex);
 
     void inicializarObjeto(unsigned int shaderId);
+
+    void setShader(unsigned int shaderId);
+    void refreshData();
 
     std::string toString(int tabLevel);
 

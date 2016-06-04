@@ -82,7 +82,7 @@ struct Material{
     void loadTextures();
     void activateTextures();
 
-    void getUnifLocMaterial(GLuint idShader);
+    void getUnifLocMaterial();
     void loadUnifMaterial();
 
     std::string toString(int tabLevel);

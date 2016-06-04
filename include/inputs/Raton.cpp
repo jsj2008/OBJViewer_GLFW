@@ -2,36 +2,35 @@
 #include "Raton.hpp"
 
 Raton::Raton() :
-        x(0), y(0),
+        x(0), y(0), xVel(0), yVel(0),
         leftButton(false), rightButton(false), middleButton(false),
         capturePointer(true) {
 }
 
-Raton::Raton(int valX, int valY) :
-        x(valX), y(valY),
-        leftButton(false), rightButton(false), middleButton(false),
-        capturePointer(true) {
-}
-
-void Raton::getPointer(int &valX, int &valY) {
+void Raton::getPointer(double &valX, double &valY) {
     valX = x;
     valY = y;
 }
 
-int Raton::getPointerX() {
+double Raton::getPointerX() {
     return x;
 }
 
-int Raton::getPointerY() {
+double Raton::getPointerY() {
     return y;
 }
 
-int Raton::getCenterPointerX(int w) {
-    return x - w / 2;
+void Raton::getVelPointer(double &valX, double &valY) {
+    valX = xVel;
+    valY = yVel;
 }
 
-int Raton::getCenterPointerY(int h) {
-    return y - h / 2;
+double Raton::getVelPointerX() {
+    return xVel;
+}
+
+double Raton::getVelPointerY() {
+    return yVel;
 }
 
 bool Raton::getCapturePointer() {
@@ -42,7 +41,11 @@ void Raton::toggleCapturePointer() {
     capturePointer = !capturePointer;
 }
 
-void Raton::setPointer(int valX, int valY) {
+void Raton::setPointer(double valX, double valY) {
+    xVel = x - valX;
+    yVel = y - valY;
+    xVel *= -1;
+    yVel *= -1;
     x = valX;
     y = valY;
 }
@@ -60,11 +63,11 @@ void Raton::setButtons(bool lButton, bool rButton, bool mButton) {
 }
 
 void Raton::reset() {
-    x = y = 0;
+    x = y = xVel = yVel = 0;
     leftButton = rightButton = middleButton = false;
 }
 
-void Raton::setWheel(int wheel, int direction, int x, int y) {
+void Raton::setWheel(int wheel, int direction, double x, double y) {
     this->wheel = direction;
 }
 

@@ -2,24 +2,24 @@
 #pragma once
 
 struct Raton {
-	int x, y;
+    double x, y, xVel, yVel;
 	bool leftButton, rightButton, middleButton;
 	bool capturePointer;
 	int wheel;
 	Raton();
-	Raton(int valX, int valY);
-	void getPointer(int &valX, int &valY);
-	int getPointerX();
-	int getPointerY();
-	int getCenterPointerX(int w);
-	int getCenterPointerY(int h);
+	void getPointer(double &valX, double &valY);
+	double getPointerX();
+	double getPointerY();
+	void getVelPointer(double &valX, double &valY);
+	double getVelPointerX();
+	double getVelPointerY();
 	bool getCapturePointer();
 	void toggleCapturePointer();
 
-	void setPointer(int valX, int valY);
+	void setPointer(double valX, double valY);
 	void getButtons(bool &leftButton, bool &rightButton, bool &middleButton);
 	void setButtons(bool leftButton, bool rightButton, bool middleButton);
-	void setWheel(int wheel, int direction, int x, int y);
+	void setWheel(int wheel, int direction, double x, double y);
 	void resetWheel();
 
 	void reset();
