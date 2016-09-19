@@ -3,11 +3,23 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/include/loaders/ObjectDataloader.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/loaders/Consola.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/loaders/shader_utils.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/loaders/BMPloader.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/loaders/ObjectDataloader.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/loaders/shader_utils.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/loaders/BMPloader.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/loaders/Consola.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/manager/ObjectManager.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/manager/ObjectManager.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/utils/InitHelper.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/utils/stringHelper.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/utils/InitHelper.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/utils/stringHelper.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Teclado.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Teclado.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Raton.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Raton.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Camera.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Textures/Textura.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Textures/Textura.hpp" isTestSource="false" />
@@ -16,10 +28,10 @@
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Material.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Shader.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/LuzPuntual.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/objects/RenderObject.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/objects/renderObject.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/ObjectData.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Object.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/objects/RenderObject.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/objects/renderObject.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/ObjectData.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Object.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/LuzPuntual.cpp" isTestSource="false" />
@@ -28,14 +40,6 @@
       <sourceFolder url="file://$MODULE_DIR$/include/objects/BasicObjects.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Camera.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Object3D.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Teclado.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Teclado.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Raton.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Raton.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/utils/InitHelper.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/utils/stringHelper.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/utils/InitHelper.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/utils/stringHelper.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
     </content>
@@ -43,16 +47,14 @@
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
+          <root url="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include-fixed" />
+          <root url="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include" />
           <root url="file://C:/MinGW/include" />
-          <root url="file://C:/MinGW/mingw32/include" />
-          <root url="file://C:/MinGW/lib/gcc/mingw32/4.8.1/include" />
-          <root url="file://C:/MinGW/lib/gcc/mingw32/4.8.1/include-fixed" />
         </CLASSES>
         <SOURCES>
+          <root url="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include-fixed" />
+          <root url="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include" />
           <root url="file://C:/MinGW/include" />
-          <root url="file://C:/MinGW/mingw32/include" />
-          <root url="file://C:/MinGW/lib/gcc/mingw32/4.8.1/include" />
-          <root url="file://C:/MinGW/lib/gcc/mingw32/4.8.1/include-fixed" />
         </SOURCES>
       </library>
     </orderEntry>

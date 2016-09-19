@@ -9,6 +9,8 @@
 #include "Camera.hpp"
 #include "Material.hpp"
 #include "Object3D.hpp"
+#include "manager/ObjectManager.hpp"
+#include "Consola.hpp"
 #include "glm/glm/glm.hpp"
 #include "stringHelper.hpp"
 #include "ObjectDataloader.hpp"
@@ -18,16 +20,20 @@ int WINDOW_WIDTH = 600;
 int WINDOW_HEIGHT = 600;
 bool fullscreen = false;
 
-const int N_OBJ = 2;
+//const int N_OBJ = 2;
 
 GLFWwindow *window;
 
+ObjectManager objManager;
+
 Raton raton;
 Teclado teclado;
+Consola consola(&objManager);
+
 
 Camera *cam;
 LuzPuntual *luz;
-Object3D *obj[N_OBJ];
+//Object3D *obj[N_OBJ];
 Shader *shader;
 
 double oldTime, lastFrameTime;
@@ -89,7 +95,6 @@ void entradas(double timeDif) {
 //    }
 }
 
-
 void initObjects() {
     shader = new Shader("basic");
     shader->loadShader();
@@ -102,39 +107,51 @@ void initObjects() {
     luz = new LuzPuntual;
     luz->linkLuzAttrib(shader->id);
     std::cout << "Cam & Light atributes cargados" << std::endl;
-    for (int i = 0; i < N_OBJ; i++) {
-        obj[i] = new Object3D(1, "prueba1.raw", "data\\troll\\troll_raw.tex");
-        obj[i]->basicData.pos = glm::vec3(i*100, 0, 0);
-        obj[i]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
-        obj[i]->material->diffuseColor.a = 0.0f;
-        obj[i]->setShader(shader->id);
-    }
 
+    ////////////////////////////////////////////////
+
+    consola.setShader(shader);
+
+//    objManager.insertObject(new Object3D(1, "prueba1.raw", "data\\troll\\troll_raw.tex"));
+//    objManager.getLastObject()->basicData.pos = glm::vec3(0, 0, 0);
+//    objManager.getLastObject()->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
+//    objManager.getLastObject()->material->diffuseColor.a = 0.0f;
+//    objManager.getLastObject()->setShader(shader->id);
+
+    ///////////////////////////////////////////////
+
+//    for (int i = 0; i < N_OBJ; i++) {
+//        obj[i] = new Object3D(1, "prueba1.raw", "data\\troll\\troll_raw.tex");
+//        obj[i]->basicData.pos = glm::vec3(i*100, 0, 0);
+//        obj[i]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
+//        obj[i]->material->diffuseColor.a = 0.0f;
+//        obj[i]->setShader(shader->id);
+//    }
 //    std::cout << obj[0]->toString(0);
     std::cout << "Objetos inicializados" << std::endl;
 }
 
 void dropFile(GLFWwindow *window, int n, const char **ss) {
-    for (int i = 0; i < n; i++) {
-        const char *s = ss[i];
-        std::cout << s << std::endl;
-        obj[1] = new Object3D(2);
-        obj[1]->basicData.pos = glm::vec3(5, 0, 0);
-        obj[1]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
-        obj[1]->data = loadObjectData2(s);
-        obj[1]->inicializarObjeto(shader->id);
-        obj[1]->material->ambientColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-        obj[1]->material->diffuseColor = glm::vec4(0.6f, 0.0f, 0.0f, 0.0f);
-        obj[1]->material->specularColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
-        obj[1]->material->glossinessColor = glm::vec4(100.0f, 0.0f, 0.0f, 0.0f);
-        obj[1]->material->selfIluminatedColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-        obj[1]->material->alphaColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-        obj[1]->material->bumpColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
-        obj[1]->material->reflectionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-        obj[1]->material->refractionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-        obj[1]->material->loadUnifMaterial();
-        std::cout << obj[1]->toString(0);
-    }
+//    for (int i = 0; i < n; i++) {
+//        const char *s = ss[i];
+//        std::cout << s << std::endl;
+//        obj[1] = new Object3D(2);
+//        obj[1]->basicData.pos = glm::vec3(5, 0, 0);
+//        obj[1]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
+//        obj[1]->data = loadObjectData2(s);
+//        obj[1]->inicializarObjeto(shader->id);
+//        obj[1]->material->ambientColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+//        obj[1]->material->diffuseColor = glm::vec4(0.6f, 0.0f, 0.0f, 0.0f);
+//        obj[1]->material->specularColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+//        obj[1]->material->glossinessColor = glm::vec4(100.0f, 0.0f, 0.0f, 0.0f);
+//        obj[1]->material->selfIluminatedColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+//        obj[1]->material->alphaColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+//        obj[1]->material->bumpColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+//        obj[1]->material->reflectionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+//        obj[1]->material->refractionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+//        obj[1]->material->loadUnifMaterial();
+//        std::cout << obj[1]->toString(0);
+//    }
 }
 
 void reshape(GLFWwindow *window, int sx, int sy) {
@@ -164,6 +181,12 @@ void fpsCounter() {
     }
 }
 
+void readConsole() {
+    std::string line;
+    std::cin >> line;
+    consola.make(line);
+}
+
 void keyRecorder(GLFWwindow *window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_E && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
@@ -176,6 +199,9 @@ void keyRecorder(GLFWwindow *window, int key, int scancode, int action, int mods
     }
     if (key == GLFW_KEY_R && action == GLFW_PRESS) {
         cam->reset();
+    }
+    if (key == GLFW_KEY_N && action == GLFW_PRESS) {
+        readConsole();
     }
     if (key == GLFW_KEY_F && action == GLFW_PRESS) {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -225,9 +251,9 @@ void keyRecorder(GLFWwindow *window, int key, int scancode, int action, int mods
         luz->position = cam->pos;
     }
     if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-        obj[0]->data = new ObjectData;
-        cube(obj[0]->data);
-        obj[0]->renderObj->loadDataBuffers(shader->id, obj[0]->data);
+//        obj[0]->data = new ObjectData;
+//        cube(obj[0]->data);
+//        obj[0]->renderObj->loadDataBuffers(shader->id, obj[0]->data);
     }
 }
 
@@ -290,13 +316,23 @@ int main(int argc, char *argv[]) {
         glUseProgram(shader->id);
         cam->loadCamAttrib();
         luz->loadLuzAttrib();
-        for (int i = 0; i < N_OBJ; i++) {
-            if (obj[i] != NULL) {
-                obj[i]->refreshData();
-                glBindVertexArray(obj[i]->renderObj->vao);
-                glDrawArrays(obj[i]->renderObj->mode, 0, obj[i]->renderObj->numV);
+
+        for (int i = 0; i < objManager.cont; i++) {
+            if (objManager.getObject(i) != NULL) {
+                objManager.getObject(i)->refreshData();
+                glBindVertexArray(objManager.getObject(i)->renderObj->vao);
+                glDrawArrays(objManager.getObject(i)->renderObj->mode, 0, objManager.getObject(i)->renderObj->numV);
             }
         }
+
+//        for (int i = 0; i < N_OBJ; i++) {
+//            if (obj[i] != NULL) {
+//                obj[i]->refreshData();
+//                glBindVertexArray(obj[i]->renderObj->vao);
+//                glDrawArrays(obj[i]->renderObj->mode, 0, obj[i]->renderObj->numV);
+//            }
+//        }
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

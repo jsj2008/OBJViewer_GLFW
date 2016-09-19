@@ -2,9 +2,9 @@
 v0.5
 -Comprobar solidez y estructura del motor HALFDONE
 -Carga de buffers dinamica HALFDONE
--Implementar instanciacion (diferentes matrizes de modelo para un mismo objeto)
 -Implementar texto como Objeto 3D y 2D
 -Implementar dibujado de texto en pantalla a escala constante
+-Implemantar las entradas de teclado como un array de punteros a funciones array[char letra] = *funcion
 
 v0.6
 -Consola (create cube cubo1 / cubo1 pos 0 1 0 / cubo1 loadTex diffuse 123.bmp / ...)
@@ -13,6 +13,7 @@ v0.6
 -Asignar teclas mediante punteros a funciones
 
 v0.7
+-Implementar instanciacion (diferentes matrizes de modelo para un mismo objeto)
 -Crear estructura para el dibujado optimo de objetos, texturas y shaders(world?)
 -Limpiar y reorganizar los shaders
 -Particulas!!
@@ -26,4 +27,3 @@ v0.9
 v1.0
 -Renderizado a framebuffer
 -Efectos de imagen
-

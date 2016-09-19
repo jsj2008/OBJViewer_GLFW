@@ -28,6 +28,8 @@ set(SOURCE_FILES
         include/loaders/ObjectDataloader.hpp
         include/loaders/shader_utils.cpp
         include/loaders/shader_utils.hpp
+        include/loaders/Consola.cpp
+        include/loaders/Consola.hpp
 
         include/inputs/Raton.cpp
         include/inputs/Raton.hpp
@@ -61,8 +63,10 @@ set(SOURCE_FILES
         include/utils/InitHelper.cpp
         include/utils/InitHelper.hpp
 
-        main.cpp
-        )
+        include/manager/ObjectManager.cpp
+        include/manager/ObjectManager.hpp
+
+        main.cpp)
 
 add_executable(${APP_NAME} ${SOURCE_FILES})
 
