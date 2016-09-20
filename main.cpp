@@ -1,7 +1,8 @@
-#include "libs/lib/glew.h"
-#include "libs/lib/glfw3.h"
+//#include "libs/lib/glew.h"
+//#include "libs/lib/glfw3.h"
 #include <iostream>
 #include <cstdio>
+#include <afxres.h>
 #include "InitHelper.hpp"
 #include "Raton.hpp"
 #include "Teclado.hpp"
@@ -20,8 +21,6 @@ int WINDOW_WIDTH = 600;
 int WINDOW_HEIGHT = 600;
 bool fullscreen = false;
 
-//const int N_OBJ = 2;
-
 GLFWwindow *window;
 
 ObjectManager objManager;
@@ -30,16 +29,18 @@ Raton raton;
 Teclado teclado;
 Consola consola(&objManager);
 
-
 Camera *cam;
 LuzPuntual *luz;
-//Object3D *obj[N_OBJ];
 Shader *shader;
 
 double oldTime, lastFrameTime;
 int nFrame = 0;
 
 void entradas(double timeDif) {
+    double xpos, ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+    raton.setPointer(xpos, ypos);
+
     float a, b, c, CAM_VEL;
     CAM_VEL = 0.1f;
     a = b = c = 0;
@@ -108,50 +109,24 @@ void initObjects() {
     luz->linkLuzAttrib(shader->id);
     std::cout << "Cam & Light atributes cargados" << std::endl;
 
-    ////////////////////////////////////////////////
-
     consola.setShader(shader);
 
-//    objManager.insertObject(new Object3D(1, "prueba1.raw", "data\\troll\\troll_raw.tex"));
-//    objManager.getLastObject()->basicData.pos = glm::vec3(0, 0, 0);
-//    objManager.getLastObject()->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
-//    objManager.getLastObject()->material->diffuseColor.a = 0.0f;
-//    objManager.getLastObject()->setShader(shader->id);
-
-    ///////////////////////////////////////////////
-
-//    for (int i = 0; i < N_OBJ; i++) {
-//        obj[i] = new Object3D(1, "prueba1.raw", "data\\troll\\troll_raw.tex");
-//        obj[i]->basicData.pos = glm::vec3(i*100, 0, 0);
-//        obj[i]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
-//        obj[i]->material->diffuseColor.a = 0.0f;
-//        obj[i]->setShader(shader->id);
-//    }
-//    std::cout << obj[0]->toString(0);
+    objManager.insertObject(new Object3D(1, "prueba1.raw", "data\\troll\\troll_raw.tex"));
+    objManager.getLastObject()->basicData.pos = glm::vec3(0, 0, 0);
+    objManager.getLastObject()->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
+    objManager.getLastObject()->material->diffuseColor.a = 0.0f;
+    objManager.getLastObject()->setShader(shader->id);
     std::cout << "Objetos inicializados" << std::endl;
 }
 
 void dropFile(GLFWwindow *window, int n, const char **ss) {
 //    for (int i = 0; i < n; i++) {
-//        const char *s = ss[i];
-//        std::cout << s << std::endl;
-//        obj[1] = new Object3D(2);
-//        obj[1]->basicData.pos = glm::vec3(5, 0, 0);
-//        obj[1]->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
-//        obj[1]->data = loadObjectData2(s);
-//        obj[1]->inicializarObjeto(shader->id);
-//        obj[1]->material->ambientColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-//        obj[1]->material->diffuseColor = glm::vec4(0.6f, 0.0f, 0.0f, 0.0f);
-//        obj[1]->material->specularColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
-//        obj[1]->material->glossinessColor = glm::vec4(100.0f, 0.0f, 0.0f, 0.0f);
-//        obj[1]->material->selfIluminatedColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-//        obj[1]->material->alphaColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-//        obj[1]->material->bumpColor = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
-//        obj[1]->material->reflectionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-//        obj[1]->material->refractionColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-//        obj[1]->material->loadUnifMaterial();
-//        std::cout << obj[1]->toString(0);
-//    }
+    objManager.insertObject(new Object3D(1, "prueba1.raw", "data\\troll\\troll_raw.tex"));
+    objManager.getLastObject()->basicData.pos = glm::vec3(objManager.cont * 100, 0, 0);
+    objManager.getLastObject()->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
+    objManager.getLastObject()->material->diffuseColor.a = 0.0f;
+    objManager.getLastObject()->setShader(shader->id);
+//}
 }
 
 void reshape(GLFWwindow *window, int sx, int sy) {
@@ -161,7 +136,7 @@ void reshape(GLFWwindow *window, int sx, int sy) {
 }
 
 void cursorPos(GLFWwindow *window, double x, double y) {
-    raton.setPointer(x,y);
+    raton.setPointer(x, y);
 }
 
 void fpsCounter() {
@@ -173,8 +148,7 @@ void fpsCounter() {
         std::string ss = "Sivax Extreme Engine";
         ss.append(" | FPS: ");
         ss.append(fps);
-//        std::cout << nFrame << " FPS" << std::endl;
-        glfwSetWindowTitle(window,ss.c_str());
+        glfwSetWindowTitle(window, ss.c_str());
         nFrame = 0;
     } else {
         nFrame++;
@@ -204,48 +178,16 @@ void keyRecorder(GLFWwindow *window, int key, int scancode, int action, int mods
         readConsole();
     }
     if (key == GLFW_KEY_F && action == GLFW_PRESS) {
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        fullscreen = !fullscreen;
         GLFWmonitor *monitor = NULL;
-        if(!fullscreen) {
+        int width = WINDOW_WIDTH;
+        int height = WINDOW_HEIGHT;
+        if (fullscreen) {
             monitor = glfwGetPrimaryMonitor();
-            WINDOW_WIDTH = glfwGetVideoMode(monitor)->width;
-            WINDOW_HEIGHT = glfwGetVideoMode(monitor)->height;
-            fullscreen = true;
-        } else {
-            WINDOW_WIDTH = 500;
-            WINDOW_HEIGHT = 500;
-            fullscreen = false;
+            width = glfwGetVideoMode(monitor)->width;
+            height = glfwGetVideoMode(monitor)->height;
         }
-        glfwDestroyWindow(window);
-        window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Sivax Extreme Engine", monitor, NULL);
-        if (!window) {
-            glfwTerminate();
-        }
-        glfwMakeContextCurrent(window);
-        int width, height;
-        glfwGetFramebufferSize(window, &width, &height);
-        glViewport(0, 0, width, height);
-
-        glewExperimental = GL_TRUE;
-        GLenum err = glewInit();
-        if (err != GLEW_OK) {
-            std::cout << "glewInit failed, aborting." << std::endl;
-        }
-
-        glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
-        glfwSetKeyCallback(window, keyRecorder);
-        glfwSetDropCallback(window, dropFile);
-        glfwSetWindowSizeCallback(window, reshape);
-        glEnable(GL_DEPTH_TEST);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL_BLEND);
-        glPointSize(50.0f);
-        glEnable(GL_CULL_FACE);
-        glClearColor(0.25f, 0.25f, 0.35f, 0.0f);
-        initObjects();
+        glfwSetWindowMonitor(window, monitor, 100, 100, width, height, 60);
     }
     if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
         luz->position = cam->pos;
@@ -257,66 +199,31 @@ void keyRecorder(GLFWwindow *window, int key, int scancode, int action, int mods
     }
 }
 
+double deltaTime() {
+    double actualTime = glfwGetTime();
+    double difTime = actualTime - oldTime;
+    oldTime = actualTime;
+    return difTime;
+}
+
 int main(int argc, char *argv[]) {
-    std::cout << "Abriendo Motor Grafico" << std::endl;
-    if (!glfwInit())
-        return 1;
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    //FreeConsole();  //Deja de mostrar la consola por pantalla
+    init_GLFW(&window, 500, 500, false);
 
-    GLFWmonitor *monitor = NULL;
-    if(fullscreen) {
-        monitor = glfwGetPrimaryMonitor();
-        WINDOW_WIDTH = glfwGetVideoMode(monitor)->width;
-        WINDOW_HEIGHT = glfwGetVideoMode(monitor)->height;
-    }
-    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Sivax Extreme Engine", monitor, NULL);
-    if (!window) {
-        glfwTerminate();
-        return 2;
-    }
-    glfwMakeContextCurrent(window);
-
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
-    glViewport(0, 0, width, height);
-
-    glewExperimental = GL_TRUE;
-    GLenum err = glewInit();
-    if (err != GLEW_OK) {
-        std::cout << "glewInit failed, aborting." << std::endl;
-    }
-    glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
     glfwSetKeyCallback(window, keyRecorder);
     glfwSetDropCallback(window, dropFile);
     glfwSetWindowSizeCallback(window, reshape);
-
-    glEnable(GL_DEPTH_TEST);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
-    glPointSize(50.0f);
-    glEnable(GL_CULL_FACE);
-    glClearColor(0.25f, 0.25f, 0.35f, 0.0f);
 
     initObjects();
 
     lastFrameTime = oldTime = glfwGetTime();
     while (!glfwWindowShouldClose(window)) {
-        double actualTime = glfwGetTime();
-        double difTime = actualTime - oldTime;
-        oldTime = actualTime;
-        double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
-        raton.setPointer(xpos,ypos);
-        entradas(difTime);
+        entradas(deltaTime());
         fpsCounter();
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shader->id);
         cam->loadCamAttrib();
         luz->loadLuzAttrib();
-
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         for (int i = 0; i < objManager.cont; i++) {
             if (objManager.getObject(i) != NULL) {
                 objManager.getObject(i)->refreshData();
@@ -324,15 +231,6 @@ int main(int argc, char *argv[]) {
                 glDrawArrays(objManager.getObject(i)->renderObj->mode, 0, objManager.getObject(i)->renderObj->numV);
             }
         }
-
-//        for (int i = 0; i < N_OBJ; i++) {
-//            if (obj[i] != NULL) {
-//                obj[i]->refreshData();
-//                glBindVertexArray(obj[i]->renderObj->vao);
-//                glDrawArrays(obj[i]->renderObj->mode, 0, obj[i]->renderObj->numV);
-//            }
-//        }
-
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
