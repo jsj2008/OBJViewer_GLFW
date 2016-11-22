@@ -10,23 +10,25 @@
       <sourceFolder url="file://$MODULE_DIR$/include/loaders/shader_utils.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/loaders/BMPloader.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/loaders/Consola.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/manager/ObjectManager.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/manager/ObjectManager.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/utils/InitHelper.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/utils/stringHelper.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/utils/InitHelper.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/utils/stringHelper.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/manager/ObjectManager.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/manager/ObjectManager.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/inputs/Teclado.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Teclado.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Raton.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/inputs/Raton.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Raton.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/inputs/Teclado.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Camera.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Shader.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Map.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Shader.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Textures/Textura.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Textures/Textura.hpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Shader.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Material.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Material.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Shader.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Map.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/objects/Material/Material.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/LuzPuntual.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/renderObject.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/objects/ObjectData.cpp" isTestSource="false" />

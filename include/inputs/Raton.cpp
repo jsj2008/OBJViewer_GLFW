@@ -44,8 +44,8 @@ void Raton::toggleCapturePointer() {
 void Raton::setPointer(double valX, double valY) {
     xVel = x - valX;
     yVel = y - valY;
-    xVel *= -1;
-    yVel *= -1;
+//    xVel *= -1;
+//    yVel *= -1;
     x = valX;
     y = valY;
 }

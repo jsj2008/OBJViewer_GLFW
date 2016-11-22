@@ -1,7 +1,9 @@
 
 v0.5
 -Comprobar solidez y estructura del motor HALFDONE
--Carga de buffers dinamica HALFDONE
+-Carga de buffers dinamica DONE
+-Usar binding pre-establecidos en los shader y el motor
+-Guardar y cargar materiales en disco
 -Implementar texto como Objeto 3D y 2D
 -Implementar dibujado de texto en pantalla a escala constante
 -Implemantar las entradas de teclado como un array de punteros a funciones array[char letra] = *funcion

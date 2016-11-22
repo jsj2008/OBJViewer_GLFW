@@ -66,7 +66,7 @@ set(SOURCE_FILES
         include/manager/ObjectManager.cpp
         include/manager/ObjectManager.hpp
 
-        main.cpp)
+        main.cpp include/objects/Material/Map.hpp include/objects/Material/Map.cpp)
 
 add_executable(${APP_NAME} ${SOURCE_FILES})
 

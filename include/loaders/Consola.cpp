@@ -28,7 +28,7 @@ void Consola::make(std::string func) {
         objectManager->insertObject(new Object3D(1, "prueba1.raw", "data\\troll\\troll_raw.tex"));
         objectManager->getLastObject()->basicData.pos = glm::vec3(objectManager->cont * 100, 0, 0);
         objectManager->getLastObject()->basicData.scale = glm::vec3(0.1f, 0.1f, 0.1f);
-        objectManager->getLastObject()->material->diffuseColor.a = 0.0f;
+//        objectManager->getLastObject()->material->diffuseColor.a = 0.0f;
         objectManager->getLastObject()->setShader(shader->id);
     }
 }

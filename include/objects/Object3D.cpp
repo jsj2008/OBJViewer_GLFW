@@ -28,12 +28,11 @@ Object3D::Object3D(unsigned int id, std::string rutaModel, std::string rutaTex) 
         basicData(id) {
     data = loadObjectData2(rutaModel);
     material = new Material();
-    material->loadTexFile(rutaTex);
+    material->loadMaterialFile(rutaTex);
     renderObj = new RenderObject();
     renderObj->createVao();
     renderObj->actualizarModelMatrix(&basicData);
 }
-
 
 Object3D::Object3D(const Object3D &obj) :
         basicData(obj.basicData),
@@ -47,12 +46,12 @@ void Object3D::inicializarObjeto(unsigned int shaderId) {
 //        data->calcNormals();
 //    if(data->numT == 0)
 //        data->calcTexCoord();
-    material = new Material(0);
+    material = new Material();
     material->setShaderId(shaderId);
     material->getUnifLocMaterial();
     material->loadUnifMaterial();
-    material->loadTexFile("data\\troll\\troll_raw.tex");
-    material->loadTextures();
+    material->loadMaterialFile("data\\troll\\troll_raw.tex");
+//    material->loadTextures();
     renderObj = new RenderObject();
     renderObj->createVao();
     renderObj->getUnifLocModelMatrix(shaderId);
@@ -64,7 +63,6 @@ void Object3D::inicializarObjeto(unsigned int shaderId) {
 void Object3D::setShader(unsigned int shaderId) {
     material->setShaderId(shaderId);
     material->getUnifLocMaterial();
-    material->loadTextures();
     renderObj->getUnifLocModelMatrix(shaderId);
     renderObj->loadDataBuffers(shaderId, data);
     refreshData();
@@ -76,7 +74,6 @@ void Object3D::refreshData() {
     renderObj->actualizarModelMatrix(&basicData);
     renderObj->loadModelUniform();
 }
-
 
 bool Object3D::loadOnFile() {
     FILE *archivo;

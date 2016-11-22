@@ -23,7 +23,11 @@ Object3D *ObjectManager::getLastObject() {
     return objects[cont - 1];
 }
 
-void ObjectManager::compact() {
-    //TODO: Compactar la memoria
+void ObjectManager::destroyObject(int i) {
+    for (int j = i; j < cont - 1; ++j) {
+        objects[j] = objects[j + 1];
+    }
 }
+
+
 

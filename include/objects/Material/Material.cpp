@@ -6,78 +6,59 @@
 #include <fstream>
 #include <cstdlib>
 
+//        ambientColor(0.1f, 0.1f, 0.15f, 1.0f),
+//        diffuseColor(0.6f, 0.6f, 0.6f, 1.0f),
+//        specularColor(0.0f, 0.0f, 0.0f, 1.0f),
+//        glossinessColor(30.0f, 0.0f, 0.0f, 1.0f),
+//        selfIluminatedColor(0.0f, 0.0f, 0.0f, 1.0f),
+//        alphaColor(1.0f, 1.0f, 1.0f, 1.0f),
+//        bumpColor(0.0f, 0.0f, 0.0f, 1.0f),
+//        reflectionColor(0.0f, 0.0f, 0.0f, 1.0f),
+//        refractionColor(0.0f, 0.0f, 0.0f, 1.0f),
 
-//TODO: Convert in a array
 Material::Material() :
         id(0),
         name("Material"),
         shaderId(0),
-        ambientColor(0.1f, 0.1f, 0.15f, 1.0f),
-        diffuseColor(0.6f, 0.6f, 0.6f, 1.0f),
-        specularColor(0.0f, 0.0f, 0.0f, 1.0f),
-        glossinessColor(30.0f, 0.0f, 0.0f, 1.0f),
-        selfIluminatedColor(0.0f, 0.0f, 0.0f, 1.0f),
-        alphaColor(1.0f, 1.0f, 1.0f, 1.0f),
-        bumpColor(0.0f, 0.0f, 0.0f, 1.0f),
-        reflectionColor(0.0f, 0.0f, 0.0f, 1.0f),
-        refractionColor(0.0f, 0.0f, 0.0f, 1.0f),
-        attribLocationMat(0),
+        attribLocationMaps(0),
         attribLocationTex(0) {
+    for (int j = 0; j < MAX_TEXTURES; ++j) {
+        maps[j] = NULL;
+    }
     std::stringstream ss;
     ss << "_" << id;
     name += ss.str();
-    for (int i = 0; i < MAX_TEXTURES; ++i) {
-        textures[i] = NULL;
-    }
 }
 
-Material::Material(unsigned int id) :
-        id(id),
-        name("Material"),
-        shaderId(0),
-        ambientColor(0.0f, 0.0f, 0.0f, 1.0f),
-        diffuseColor(0.6f, 0.6f, 0.6f, 1.0f),
-        specularColor(0.0f, 0.0f, 0.0f, 1.0f),
-        glossinessColor(30.0f, 0.0f, 0.0f, 1.0f),
-        selfIluminatedColor(0.0f, 0.0f, 0.0f, 1.0f),
-        alphaColor(1.0f, 1.0f, 1.0f, 1.0f),
-        bumpColor(0.0f, 0.0f, 0.0f, 1.0f),
-        reflectionColor(0.0f, 0.0f, 0.0f, 1.0f),
-        refractionColor(0.0f, 0.0f, 0.0f, 1.0f),
-        attribLocationMat(0),
-        attribLocationTex(0) {
-    std::stringstream ss;
-    ss << "_" << id;
-    name += ss.str();
-    for (int i = 0; i < MAX_TEXTURES; ++i) {
-        textures[i] = NULL;
-    }
-}
-
-Material::Material(const Material &mat) :
-        id(mat.id),
-        name(mat.name),
-        shaderId(mat.shaderId),
-        ambientColor(mat.ambientColor),
-        diffuseColor(mat.diffuseColor),
-        specularColor(mat.specularColor),
-        glossinessColor(mat.glossinessColor),
-        selfIluminatedColor(mat.selfIluminatedColor),
-        alphaColor(mat.alphaColor),
-        bumpColor(mat.bumpColor),
-        reflectionColor(mat.reflectionColor),
-        refractionColor(mat.refractionColor),
-        attribLocationMat(mat.attribLocationMat),
-        attribLocationTex(mat.attribLocationTex) {
-    for (int i = 0; i < MAX_TEXTURES; ++i) {
-        textures[i] = mat.textures[i];
-    }
-}
+//Material::Material(unsigned int id) :
+//        id(id),
+//        name("Material"),
+//        shaderId(0),
+//        attribLocationMat(0),
+//        attribLocationTex(0) {
+//    std::stringstream ss;
+//    ss << "_" << id;
+//    name += ss.str();
+//    for (int i = 0; i < MAX_TEXTURES; ++i) {
+//        textures[i] = NULL;
+//    }
+//}
+//
+//Material::Material(const Material &mat) :
+//        id(mat.id),
+//        name(mat.name),
+//        shaderId(mat.shaderId),
+//        attribLocationMat(mat.attribLocationMat),
+//        attribLocationTex(mat.attribLocationTex) {
+//    for (int i = 0; i < MAX_TEXTURES; ++i) {
+//        textures[i] = mat.textures[i];
+//    }
 
 Material::~Material() {
     for (int i = 0; i < MAX_TEXTURES; ++i) {
-        if (textures[i] != NULL)
-            delete textures[i];
+        if(maps[i] != NULL){
+            delete(maps[i]);
+        }
     }
 }
 
@@ -93,48 +74,8 @@ unsigned int Material::getShaderId() {
     return shaderId;
 }
 
-glm::vec4 Material::getAmbient() {
-    return ambientColor;
-}
-
-glm::vec4 Material::getDiffuseColor() {
-    return diffuseColor;
-}
-
-glm::vec4 Material::getSpecularColor() {
-    return specularColor;
-}
-
-glm::vec4 Material::getGlossinessColor() {
-    return glossinessColor;
-}
-
-glm::vec4 Material::getSelfIluminatedColor() {
-    return selfIluminatedColor;
-}
-
-glm::vec4 Material::getAlphaColor() {
-    return alphaColor;
-}
-
-glm::vec4 Material::getBumpColor() {
-    return bumpColor;
-}
-
-glm::vec4 Material::getReflectionColor() {
-    return reflectionColor;
-}
-
-glm::vec4 Material::getRefractionColor() {
-    return refractionColor;
-}
-
-Textura *Material::getTexture(int tipo) {
-    return textures[tipo];
-}
-
-Textura *Material::getTextures() {
-    return textures[0];
+Map *Material::getMap(int tipo) {
+    return maps[tipo];
 }
 
 void Material::setId(unsigned int id) {
@@ -149,82 +90,37 @@ void Material::setShaderId(unsigned int shaderId) {
     this->shaderId = shaderId;
 }
 
-void Material::setAmbient(glm::vec4 ambient) {
-    this->ambientColor = ambient;
-}
 
-void Material::setDiffuseColor(glm::vec4 diffuseColor) {
-    this->diffuseColor = diffuseColor;
+void Material::addMap(Map *map, int tipo) {
+    maps[tipo] = map;
 }
-
-void Material::setSpecularColor(glm::vec4 specularColor) {
-    this->specularColor = specularColor;
-}
-
-void Material::setGlossinessColor(glm::vec4 glossinessColor) {
-    this->glossinessColor = glossinessColor;
-}
-
-void Material::setSelfIluminatedColor(glm::vec4 selfIluminatedColor) {
-    this->selfIluminatedColor = selfIluminatedColor;
-}
-
-void Material::setAlphaColor(glm::vec4 alphaColor) {
-    this->alphaColor = alphaColor;
-}
-
-void Material::setBumpColor(glm::vec4 bumpColor) {
-    this->bumpColor = bumpColor;
-}
-
-void Material::setReflectionColor(glm::vec4 reflectionColor) {
-    this->reflectionColor = reflectionColor;
-}
-
-void Material::setRefractionColor(glm::vec4 refractionColor) {
-    this->refractionColor = refractionColor;
-}
-
-void Material::setTextures(Textura *textures[MAX_TEXTURES]) {
-    for (int i = 0; i < MAX_TEXTURES; ++i) {
-        this->textures[i] = textures[i];
-    }
-}
-
-void Material::addTexture(Textura *texture, int tipo) {
-    this->textures[tipo] = texture;
-}
-
-void Material::loadTextures() {
-    for (int i = 0; i < MAX_TEXTURES; ++i) {
-        if (textures[i] != NULL)
-            textures[i]->cargarTex();
-    }
-}
-
 
 void Material::activateTextures() {
     for (unsigned int i = 0; i < MAX_TEXTURES; ++i) {
-        if (textures[i] != NULL)
-            textures[i]->activarTex(i);
+        if (maps[i] != NULL && maps[i]->useTexture)
+            maps[i]->textura->activarTex(i);
     }
 }
 
-void Material::loadTexFile(std::string ruta) {
+void Material::loadMaterialFile(std::string ruta) {
     std::cout << "Cargando texturas" << std::endl;
     std::ifstream file(ruta);
     int tipo;
     std::string s;
     while (file >> tipo >> s) {
-        addTexture(new Textura(s), tipo);
+        addMap(new Map(new Textura(s)), tipo);
         std::cout << "Textura " << tipo << " " << s << " cargada" << std::endl;
     }
     file.close();
 }
 
-void  Material::getUnifLocMaterial() {
-    attribLocationMat = (GLuint) glGetUniformLocation(shaderId, "material[0]");
-    if (attribLocationMat < 0) {
+void Material::getUnifLocMaterial() {
+    attribLocationAmount = (GLuint) glGetUniformLocation(shaderId, "amount[0]");
+    if (attribLocationAmount < 0) {
+        std::cout << "Shader did not contain the 'amount[0]' uniform." << std::endl;
+    }
+    attribLocationMaps = (GLuint) glGetUniformLocation(shaderId, "material[0]");
+    if (attribLocationMaps < 0) {
         std::cout << "Shader did not contain the 'material[0]' uniform." << std::endl;
     }
     attribLocationTex = (GLuint) glGetUniformLocation(shaderId, "myTextures[0]");
@@ -233,27 +129,17 @@ void  Material::getUnifLocMaterial() {
     }
 }
 
-void  Material::loadUnifMaterial() {
-    glm::vec4 material[] = {
-            ambientColor,
-            diffuseColor,
-            specularColor,
-            glossinessColor,
-            selfIluminatedColor,
-            alphaColor,
-            bumpColor,
-            reflectionColor,
-            refractionColor
-    };
-//    if (attribLocationMat > -1) {
-        for (int i = 0; i < MAX_TEXTURES; ++i) {
-            glUniform4fv(attribLocationMat + i, 1, glm::value_ptr(material[i]));
+void Material::loadUnifMaterial() {
+    for (int i = 0; i < MAX_TEXTURES; ++i) {
+        if(maps[i] != NULL) {
+            glUniform1f(attribLocationAmount + i,maps[i]->amount);
+            glUniform3fv(attribLocationMaps + i, 1, glm::value_ptr(maps[i]->color));
         }
-//    }
+    }
 //    if (attribLocationTex > -1) {
-        for (unsigned int b = 0; b < MAX_TEXTURES; b++) {
-            glUniform1i(attribLocationTex + b, b);
-        }
+    for (unsigned int b = 0; b < MAX_TEXTURES; b++) {
+        glUniform1i(attribLocationTex + b, b);
+    }
 //    }
 }
 
@@ -266,15 +152,15 @@ std::string Material::toString(int tabLevel) {
     ss << tab.str() << "Material Data" << "\n";
     ss << tab.str() << "\tId = " << id << "\n";
     ss << tab.str() << "\tName = " << name << "\n";
-    ss << tab.str() << "\tAmbientColor = " << vec4ToString(ambientColor) << "\n";
-    ss << tab.str() << "\tDiffuseColor = " << vec4ToString(diffuseColor) << "\n";
-    ss << tab.str() << "\tSpecularColor = " << vec4ToString(specularColor) << "\n";
-    ss << tab.str() << "\tGlossinessColor = " << vec4ToString(glossinessColor) << "\n";
-    ss << tab.str() << "\tSelfIluminatedColor = " << vec4ToString(selfIluminatedColor) << "\n";
-    ss << tab.str() << "\tAlphaColor = " << vec4ToString(alphaColor) << "\n";
-    ss << tab.str() << "\tBumpColor = " << vec4ToString(bumpColor) << "\n";
-    ss << tab.str() << "\tReflectionColor = " << vec4ToString(reflectionColor) << "\n";
-    ss << tab.str() << "\tReflactionColor = " << vec4ToString(refractionColor) << "\n";
+//    ss << tab.str() << "\tAmbientColor = " << vec4ToString(ambientColor) << "\n";
+//    ss << tab.str() << "\tDiffuseColor = " << vec4ToString(diffuseColor) << "\n";
+//    ss << tab.str() << "\tSpecularColor = " << vec4ToString(specularColor) << "\n";
+//    ss << tab.str() << "\tGlossinessColor = " << vec4ToString(glossinessColor) << "\n";
+//    ss << tab.str() << "\tSelfIluminatedColor = " << vec4ToString(selfIluminatedColor) << "\n";
+//    ss << tab.str() << "\tAlphaColor = " << vec4ToString(alphaColor) << "\n";
+//    ss << tab.str() << "\tBumpColor = " << vec4ToString(bumpColor) << "\n";
+//    ss << tab.str() << "\tReflectionColor = " << vec4ToString(reflectionColor) << "\n";
+//    ss << tab.str() << "\tReflactionColor = " << vec4ToString(refractionColor) << "\n";
     ss << tab.str() << "\tTextures =" << "\n";
     for (int t = 0; t < MAX_TEXTURES; ++t) {
         switch (t) {
@@ -306,10 +192,12 @@ std::string Material::toString(int tabLevel) {
                 ss << tab.str() << "\t\tUnnamed" << "\n";
                 break;
         }
-        ss << tab.str() << ((textures[t] == NULL) ? "\t\t\tNULL\n" : textures[t]->toString(tabLevel + 2));
+//        ss << tab.str() << ((textures[t] == NULL) ? "\t\t\tNULL\n" : textures[t]->toString(tabLevel + 2));
     }
     return ss.str();
 }
+
+
 
 
 

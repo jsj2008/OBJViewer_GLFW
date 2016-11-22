@@ -18,5 +18,7 @@ struct ObjectManager {
 
     Object3D *getLastObject();
 
-    void compact();
+    void destroyObject(int i);
+
+
 };
